@@ -3,19 +3,38 @@ const app = express();
 const port = 3000;
 
 const data = json2array(require("./rate.json").currencies);
+const obj = require("./rate.json").currencies;
 
 console.log(data);
 
+app.get("/", (req, res) => {
+  res.json({
+    READMD: [
+      { URL: "/twd", DOC: "read twd to any one currency rate" },
+      { URL: "/usd", DOC: "read usd to any one currency rate" },
+      { URL: "/jpy", DOC: "read jpy to any one currency rate" },
+      {
+        URL: "/{source}/{target}/{qty}",
+        DOC: "Calculate currency conversion values",
+      },
+      {
+        URL: "/twd/usd/100",
+        DOC: "example: twd 100 to usd",
+      },
+    ],
+  });
+});
+
 app.get("/twd", (req, res) => {
-  res.json(data[TWD]);
+  res.json({ rate: obj["TWD"] });
 });
 
 app.get("/jpy", (req, res) => {
-  res.json(data[JPY]);
+  res.json({ rate: obj["JPY"] });
 });
 
 app.get("/usd", (req, res) => {
-  res.json(data[USD]);
+  res.json({ rate: obj["USD"] });
 });
 
 /*
